@@ -2,7 +2,7 @@ import requests
 
 from library.gdax_auth import GdaxAuth
 
-BASE_URL = 'https://api.gdax.com{}'
+BASE_URL = 'https://api.gdax.com/{}'
 
 
 class GdaxServiceManager:
