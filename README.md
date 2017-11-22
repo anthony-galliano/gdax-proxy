@@ -7,7 +7,7 @@ Due to GDAX restricting requests from other origins ([CORS](https://developer.mo
 **For more information on the matter, see the Coinbase github discussion [here](https://github.com/coinbase/gdax-node/issues/116#issuecomment-332925708).**
 
 
-This project enables developers to stand up their own GDAX proxy server internally and receive data from GDAX matching the same schema as those described in the [GDAX API Docs](https://docs.gdax.com/).
+This project enables developers to stand up their own GDAX proxy server internally and send/receive data from GDAX in the **same manner** as described in the [GDAX API Docs](https://docs.gdax.com/). Simply change the request pattern from `api.gdax.com/{resource}` to `{your_host}/{resource}`.
 
 To use this project, ensure you have `python` and `pip` installed. Then, perform the following:
 
@@ -16,7 +16,7 @@ To use this project, ensure you have `python` and `pip` installed. Then, perform
 pip install -r requirements.txt
 ````
 
-2. Modify the `app\__init__.py` file and change your `host` and `port`, as applicable.
+2. (OPTIONAL) Modify the `app\__init__.py` file and change your `host` and `port`.
 ```
 app.run(host='0.0.0.0', port=3456, threaded=True)
 ```
@@ -28,24 +28,19 @@ python app/__init__.py
 
 ## Using the proxy with your web app
 
-Calling this proxy server is as simple as providing your `api_key`, `secret`, and `passphrase`, [required to sign all requests using GDAX's authentication scheme](https://docs.gdax.com/#private), and the `endpoint` you wish to call. Additionally, you may need to supply `x-request-type` and `x-request-data` if you're proxying a `POST` or `PUT` API on GDAX.
+Calling this proxy server is as simple as providing the `gdax-api-key`, `gdax-secret`, and `gdax-passphrase` as headers and the resource you want to request. The headers are [required to sign all requests using GDAX's authentication scheme](https://docs.gdax.com/#private). The proxy will do the work of generating the required `CB-ACCESS-*` headers and calling `api.gdax.com`.
 
-For example, to call the [GET /accounts](https://docs.gdax.com/#accounts) endpoint, by default, simply call the proxy as follows:
+For example, to call the [GET /accounts](https://docs.gdax.com/#accounts) resource on your local box, simply call the proxy as follows:
 ```
-GET http://localhost:3456/api/proxy
+GET http://localhost:3456/accounts
 {
     "gdax-api-key": "ABC",
     "gdax-secret": "DEF",
-    "gdax-passphrase": "GHI",
-    "gdax-endpoint": "/accounts"
-    "x-request-type": "GET" (default is GET and can be safely omitted)
-    "x-request-data": { ... } (only relevant for POST and PUT requests)
+    "gdax-passphrase": "GHI"
 }
 ```
 
-_That is, in general, the only thing that'll change about your request to the proxy is the `gdax-endpoint` header value._
-
-Any responses from the GDAX API will be proxied to your caller without CORS restrictions!
+Any responses from the GDAX API will be proxied back to your caller without CORS restrictions!
 
 ## TODO
 * HTTPS support **(please don't use in a production setting without this)**
