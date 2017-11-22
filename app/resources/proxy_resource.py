@@ -13,6 +13,12 @@ class ProxyResource(Resource):
         resp = service_manager.get(endpoint)
         return _data_to_response(resp)
 
+    def delete(self, endpoint):
+        args = self._ensure_request(endpoint)
+        service_manager = GdaxServiceManager(args.api_key, args.secret, args.passphrase)
+        resp = service_manager.delete(endpoint)
+        return _data_to_response(resp)
+
     def options(self, endpoint):
         # CORS...
         self._ensure_valid_endpoint(endpoint)
