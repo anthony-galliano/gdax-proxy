@@ -28,7 +28,7 @@ python app/__init__.py
 
 ## Using the proxy with your web app
 
-Calling this proxy server is as simple as providing your `api_key`, `secret`, and `passphrase` (as required in the GDAX API Docs) and the `endpoint` you wish to call. Additionally, you may need to supply `x-request-type` and `x-request-data` if you're proxying a `POST` or `PUT` API on GDAX.
+Calling this proxy server is as simple as providing your `api_key`, `secret`, and `passphrase`, [required to sign all requests using GDAX's authentication scheme](https://docs.gdax.com/#private), and the `endpoint` you wish to call. Additionally, you may need to supply `x-request-type` and `x-request-data` if you're proxying a `POST` or `PUT` API on GDAX.
 
 For example, to call the [GET /accounts](https://docs.gdax.com/#accounts) endpoint, by default, simply call the proxy as follows:
 ```
