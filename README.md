@@ -47,5 +47,5 @@ _That is, in general, the only thing that'll change about your request to the pr
 
 Any responses from the GDAX API will be proxied to your caller without CORS restrictions!
 
-## TODO: 
+## TODO
 * HTTPS support **(please don't use in a production setting without this)**
