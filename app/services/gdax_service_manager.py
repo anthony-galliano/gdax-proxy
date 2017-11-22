@@ -13,9 +13,15 @@ class GdaxServiceManager:
         return requests.get(BASE_URL.format(endpoint), auth=self.auth)
 
     def post(self, endpoint, data=None):
+        if not data:
+            data = None
+
         return requests.post(BASE_URL.format(endpoint), data=data, auth=self.auth)
 
     def put(self, endpoint, data=None):
+        if not data:
+            data = None
+
         return requests.put(BASE_URL.format(endpoint), data=data, auth=self.auth)
 
     def delete(self, endpoint):

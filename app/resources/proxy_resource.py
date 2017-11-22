@@ -1,4 +1,4 @@
-import requests
+from flask import request
 from flask_restful import abort, Resource, reqparse
 
 from . import _data_to_response
@@ -7,22 +7,39 @@ from services.gdax_service_manager import GdaxServiceManager
 
 
 class ProxyResource(Resource):
-    def get(self, endpoint):
-        args = self._ensure_request(endpoint)
-        service_manager = GdaxServiceManager(args.api_key, args.secret, args.passphrase)
-        resp = service_manager.get(endpoint)
-        return _data_to_response(resp)
-
     def delete(self, endpoint):
-        args = self._ensure_request(endpoint)
-        service_manager = GdaxServiceManager(args.api_key, args.secret, args.passphrase)
-        resp = service_manager.delete(endpoint)
-        return _data_to_response(resp)
+        return self._proxy_request(endpoint)
+
+    def get(self, endpoint):
+        return self._proxy_request(endpoint)
+
+    def post(self, endpoint):
+        return self._proxy_request(endpoint)
+
+    def put(self, endpoint):
+        return self._proxy_request(endpoint)
 
     def options(self, endpoint):
         # CORS...
         self._ensure_valid_endpoint(endpoint)
         return _data_to_response(None)
+
+    def _proxy_request(self, endpoint):
+        args = self._ensure_request(endpoint)
+        service_manager = GdaxServiceManager(args.api_key, args.secret, args.passphrase)
+
+        if request.method == 'GET':
+            resp = service_manager.get(endpoint)
+        elif request.method == 'POST':
+            resp = service_manager.post(endpoint, request.data)
+        elif request.method == 'PUT':
+            resp = service_manager.put(endpoint, request.data)
+        elif request.method == 'DELETE':
+            resp = service_manager.delete(endpoint)
+        else:
+            resp = None
+
+        return _data_to_response(resp)
 
     @staticmethod
     def _ensure_request(endpoint):
