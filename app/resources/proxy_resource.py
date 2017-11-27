@@ -58,4 +58,4 @@ class ProxyResource(Resource):
     @staticmethod
     def _ensure_valid_endpoint(endpoint):
         if not is_valid_endpoint(endpoint):
-            abort(403, message='Forbidden endpoint for GET request')
+            abort(403, message='Forbidden endpoint')
