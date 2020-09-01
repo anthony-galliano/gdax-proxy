@@ -1,6 +1,6 @@
-flake8==3.5.0
-flask==0.12.2
-flask_restful==0.3.6
-pytest==3.2.5
-ratelimit==1.4.1
-requests==2.18.4
+flake8==3.8.3
+flask==1.1.2
+flask_restful==0.3.8
+pytest==6.0.1
+ratelimit==2.2.1
+requests==2.24.0
